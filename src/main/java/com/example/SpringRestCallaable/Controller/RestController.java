@@ -1,11 +1,9 @@
 package com.example.SpringRestCallaable.Controller;
 
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -14,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 
 @org.springframework.web.bind.annotation.RestController
@@ -33,7 +30,7 @@ public class RestController {
     MovieService movieService;
 
     @Autowired
-     myCallable callable;
+     MyCallable callable;
 
     @RequestMapping("/myApp")
     public String sayHi() throws InterruptedException {
@@ -113,18 +110,88 @@ public class RestController {
     }
 
     @RequestMapping("/UserfromGitNoramlSync")
-    public String getUserfromGitHubSync() throws InterruptedException {
+    public String getUserfromGitHubSync() throws InterruptedException, ExecutionException {
 
+        CompletableFuture<UserData> page1 = null;
         System.out.println("End time "+(System.currentTimeMillis())/100);
-        for(int i=0;i< 100; i++){
+        Map<Integer,Integer> map1=  new HashMap<Integer,Integer>();
 
-            CompletableFuture<Object> page1 = movieService.lookforUserfromGit(i);
+        //List<CompletableFuture<ResponseEntity<UserData>>> completableFutures = new ArrayList<>(); //List to hold all the completable futures
+        CompletableFuture<ResponseEntity<UserData>> completableFutures =null; //List to hold all the completable futures
+
+        List<CompletableFuture<ResponseEntity<UserData>>> completedTasks = new ArrayList<>();
+
+        ExecutorService yourOwnExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        List<UserData> responses = new ArrayList<>();
+
+        Map<Integer, Integer> map21 =new HashMap<>();
+        map21.put(1,1);
+        map21.put(2,2);
+        map21.put(3,3);
+        map21.put(4,4);
+
+
+        for (Map.Entry<Integer, Integer> entry : map21.entrySet()) {
+        completableFutures = CompletableFuture
+                .supplyAsync(() -> {
+                    try {
+                       return movieService.lookforUserfromGit(entry);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                 return null;}
+                 );
+        //collect all async tasks
+            completedTasks.add(completableFutures);
         }
 
-        System.out.println("End time "+(System.currentTimeMillis())/100);
+        System.out.println("--->>>"+completedTasks.get(0).get());
+
+        for (Map.Entry<Integer, Integer> entry : map21.entrySet()) {
+
+            CompletableFuture<ResponseEntity<UserData>> requestCompletableFuture = (CompletableFuture<ResponseEntity<UserData>>) CompletableFuture
+                    .supplyAsync(
+                            () ->
+
+                                    movieService.lookforUserfromGit(entry));
+
+            //completableFutures.add(requestCompletableFuture);
+
+
+            System.out.println("---->>"+requestCompletableFuture.get());
+
+            //completableFutures.add(requestCompletableFuture.get());
+        }
+
+
+        //System.out.println("size is"+completableFutures.get(0).get());
+     /*   CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0]))
+                // avoid throwing an exception in the join() call
+                .exceptionally(ex -> null)
+                .join();
+*/
+        /*Map<Boolean, Long> result;
+        completableFutures.stream()
+                  .map(p -> {
+                                                return movieService.lookforUserfromGit1(1);
+
+                  }).forEach(System.out::println);
+                //.collect(Collectors.<CompletableFuture<ResponseEntity<UserData>>>toList());
+
+        System.out.println(completableFutures.size());*/
+//        System.out.println(completableFutures.get(0).get().toString());
+
+     /*  for (CompletableFuture<ResponseEntity<UserData>> responseEntity: completableFutures ){
+        System.out.println(responseEntity.get().getBody());
+       }
+*/
+       System.out.println("End time "+(System.currentTimeMillis())/100);
 
         return  "sucess";
     }
+
 
 
 

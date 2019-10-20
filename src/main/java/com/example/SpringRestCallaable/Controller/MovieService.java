@@ -4,20 +4,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 @Service
-public class MovieService {
+public class MovieService  {
 
     private static final Logger LOG = LoggerFactory.getLogger(MovieService.class);
 
@@ -28,8 +26,6 @@ public class MovieService {
     public MovieService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
-
-
 
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<MovieModel> lookForMovie(String movieId) throws InterruptedException {
@@ -57,15 +53,40 @@ public class MovieService {
     }
 
     @Async("threadPoolTaskExecutor")
-    p ublic CompletableFuture<Object> lookforUserfromGit(int s) {
-
+    public ResponseEntity<UserData> lookforUserfromGit(Map.Entry<Integer, Integer> s)  {
 
         ///String url = String.format("https://api.github.com/users/%s", s);
+
+
+        System.out.println("=="+s.getKey());
+        String url = String.format("https://jsonplaceholder.typicode.com/todos/%s", s.getKey());
+        System.out.println(url);
+
+        ResponseEntity<UserData> respponseEntity=
+                restOperations.exchange(url, HttpMethod.GET,null,UserData.class);
+
+        System.out.println("hi=="+respponseEntity.getBody().getId());
+
+        return respponseEntity;
+    }
+
+
+    @Async("threadPoolTaskExecutor")
+    public ResponseEntity<UserData> lookforUserfromGit1(int s)  {
+
+        ///String url = String.format("https://api.github.com/users/%s", s);
+
+
+        //System.out.println("=="+s.getKey());
         String url = String.format("https://jsonplaceholder.typicode.com/todos/%s", s);
         System.out.println(url);
-        ResponseEntity<Object> respponseEntity=
-                restOperations.exchange(url, HttpMethod.GET,null,Object.class);
-        //respponseEntity.getBody()
-        return CompletableFuture.completedFuture(respponseEntity.getBody());
+
+        ResponseEntity<UserData> respponseEntity=
+                restOperations.exchange(url, HttpMethod.GET,null,UserData.class);
+
+        System.out.println("hi=="+respponseEntity.getBody().getId());
+
+        return respponseEntity;
     }
+
 }
