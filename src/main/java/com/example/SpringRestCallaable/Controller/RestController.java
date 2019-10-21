@@ -261,6 +261,144 @@ public class RestController {
     }
 
 
+    @RequestMapping("/UserfromGitSimplie")
+    public String getUserfromGitHubSync1() throws InterruptedException, ExecutionException {
+
+        CompletableFuture<UserData> page1 = null;
+        System.out.println("End time " + (System.currentTimeMillis()) / 100);
+        ///Map<Integer, Integer> map1 = new HashMap<Integer, Integer>();
+
+        CompletableFuture<String> completableFutures = null; //List to hold all the completable futures
+
+        List<CompletableFuture<String>> completedTasks = new ArrayList<>();
+
+        //ExecutorService yourOwnExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        //List<UserData> responses = new ArrayList<>();
+
+        Map<Integer, Integer> map21 = new HashMap<>();
+        //map21.put(0,0);
+        map21.put(1,1);
+        map21.put(2,2);
+        map21.put(3,3);
+        map21.put(4,4);
+        map21.put(5,5);
+        map21.put(6,6);
+        map21.put(7,7);
+        map21.put(8,8);
+        map21.put(9,9);
+        map21.put(10,10);
+        map21.put(11,11);
+        map21.put(12,12);
+        map21.put(13,13);
+        map21.put(14,14);
+        map21.put(15,15);
+        map21.put(16,16);
+        map21.put(17,17);
+        map21.put(18,18);
+        map21.put(19,19);
+        map21.put(20,20);
+        map21.put(21,21);
+        map21.put(22,22);
+        map21.put(23,23);
+        map21.put(24,24);
+        map21.put(25,25);
+        map21.put(26,26);
+        map21.put(27,27);
+        map21.put(28,28);
+        map21.put(29,29);
+        map21.put(30,30);
+        map21.put(31,31);
+        map21.put(32,32);
+        map21.put(33,33);
+        map21.put(34,34);
+        map21.put(35,35);
+        map21.put(36,36);
+        map21.put(37,37);
+        map21.put(38,38);
+        map21.put(39,39);
+        map21.put(40,40);
+        map21.put(41,41);
+        map21.put(42,42);
+        map21.put(43,43);
+        map21.put(44,44);
+        map21.put(45,45);
+        map21.put(46,46);
+        map21.put(47,47);
+        map21.put(48,48);
+        map21.put(49,49);
+        map21.put(50,50);
+        map21.put(51,51);
+        map21.put(52,52);
+        map21.put(53,53);
+        map21.put(54,54);
+        map21.put(55,55);
+        map21.put(56,56);
+        map21.put(57,57);
+        map21.put(58,58);
+        map21.put(59,59);
+        map21.put(60,60);
+        map21.put(61,61);
+        map21.put(62,62);
+        map21.put(63,63);
+        map21.put(64,64);
+        map21.put(65,65);
+        map21.put(66,66);
+        map21.put(67,67);
+        map21.put(68,68);
+        map21.put(69,69);
+        map21.put(70,70);
+        map21.put(71,71);
+        map21.put(72,72);
+        map21.put(73,73);
+        map21.put(74,74);
+        map21.put(75,75);
+        map21.put(76,76);
+        map21.put(77,77);
+        map21.put(78,78);
+        map21.put(79,79);
+        map21.put(80,80);
+        map21.put(81,81);
+        map21.put(82,82);
+        map21.put(83,83);
+        map21.put(84,84);
+        map21.put(85,85);
+        map21.put(86,86);
+        map21.put(87,87);
+        map21.put(88,88);
+        map21.put(89,89);
+        map21.put(90,90);
+        map21.put(91,91);
+        map21.put(92,92);
+        map21.put(93,93);
+        map21.put(94,94);
+        map21.put(95,95);
+        map21.put(96,96);
+        map21.put(97,97);
+        map21.put(98,98);
+        map21.put(99,99);
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+        List<String> stringlist=new ArrayList();
+        String str= "";
+        for (Map.Entry<Integer, Integer> entry : map21.entrySet()) {
+            str=movieService.lookforUserfromGit(entry);
+            stringlist.add(str);
+        }
+
+        for(String test:stringlist )
+        {
+            System.out.println("==Return value in Conroller==>>>"+test);
+        }
+        System.out.println("End time " + (System.currentTimeMillis()) / 100);
+
+        return "sucess";
+    }
+
+
+
+
    /* @RequestMapping("/UserfromGitNoramlSync1")
     public String getUserfromGitHubSync4() throws InterruptedException, ExecutionException {
 
