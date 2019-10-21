@@ -40,7 +40,8 @@ public class MovieService  {
 
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<Object> lookForMovienew(String movieId) throws InterruptedException {
-        LOG.info("Looking up Movie ID: {}", movieId);
+        LOG.info("Looking up Movie ID:" +
+                " {}", movieId);
 
         String url = String.format("https://ghibliapi.herokuapp.com/films/%s", "58611129-2dbc-4a81-a72f-77ddfc1b1b49");
         ResponseEntity<Object> results=
@@ -52,27 +53,27 @@ public class MovieService  {
         return CompletableFuture.completedFuture(results);
     }
 
-    @Async("threadPoolTaskExecutor")
-    public ResponseEntity<UserData> lookforUserfromGit(Map.Entry<Integer, Integer> s)  {
+    ///@Async("threadPoolTaskExecutor")
+    public String lookforUserfromGit(Map.Entry<Integer, Integer> s) throws InterruptedException {
 
         ///String url = String.format("https://api.github.com/users/%s", s);
+        ResponseEntity<UserData> respponseEntity =null;
 
-
-        System.out.println("=="+s.getKey());
+        //System.out.println("=="+s.getKey());
         String url = String.format("https://jsonplaceholder.typicode.com/todos/%s", s.getKey());
         System.out.println(url);
 
-        ResponseEntity<UserData> respponseEntity=
-                restOperations.exchange(url, HttpMethod.GET,null,UserData.class);
+             respponseEntity =
+                    restOperations.exchange(url, HttpMethod.GET, null, UserData.class);
 
-        System.out.println("hi=="+respponseEntity.getBody().getId());
+        System.out.println("hi=response id="+respponseEntity.getBody().getId());
 
-        return respponseEntity;
+               return " id is ->"+respponseEntity.getBody().getId() +" & title is"+ respponseEntity.getBody().getTitle() ;
     }
 
 
-    @Async("threadPoolTaskExecutor")
-    public ResponseEntity<UserData> lookforUserfromGit1(int s)  {
+    /*@Async("threadPoolTaskExecutor")
+    public String lookforUserfromGit1(int s)  {
 
         ///String url = String.format("https://api.github.com/users/%s", s);
 
@@ -84,9 +85,9 @@ public class MovieService  {
         ResponseEntity<UserData> respponseEntity=
                 restOperations.exchange(url, HttpMethod.GET,null,UserData.class);
 
-        System.out.println("hi=="+respponseEntity.getBody().getId());
+        //System.out.println("hi=="+respponseEntity.getBody().getId());
 
-        return respponseEntity;
+        return respponseEntity.getBody().getTitle();
     }
-
+*/
 }
